@@ -8,6 +8,7 @@ MovieInfo is a web application that allows users to search for movies and TV sho
 - **Filter** results by genre (using TMDB genres).
 - **View details** for each movie, including poster, plot, cast, director, and ratings.
 - **Pagination** for browsing through multiple pages of results.
+- **Watchlist** for seeing  movies and shows that are of interest to you
 - **Responsive design** for desktop and mobile devices.
 
 ## Technologies Used
@@ -34,5 +35,5 @@ MovieInfo is a web application that allows users to search for movies and TV sho
 3. **Run Locally**  
    - Open `index.html` in your browser.
    - No server is required; all API calls are made client-side.
-   - Search for movies and TV shows, filter by genre, and view details.
+   - Search for movies and TV shows, filter by genre,view details and add to your watchlist if it interests you.
 
