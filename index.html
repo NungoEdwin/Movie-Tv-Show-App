@@ -3,11 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>MovieInfo | Search Movies & TV Shows</title>
-    <link rel="stylesheet" href="https://bootswatch.com/cyborg/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-    <nav class="navbar navbar-inverse navbar-expand-lg">
+    <nav class="navbar" style="background-color: #333; padding: 1rem;">
       <div class="container">
         <div class="navbar-header" style="width:100%; display:flex; align-items:center; justify-content:center;">
           <a class="navbar-brand" href="index.html" style="font-size:2rem; font-weight:700; color:#00bcd4; letter-spacing:1px;">MovieInfo</a>
@@ -25,7 +24,9 @@
     </div>
 
     <div class="container">
-      <div id="movies" class="row"></div>
+      <div id="movies" class="movie-cards-container">
+        <!-- Movie cards will be dynamically added here -->
+      </div>
     </div>
 
     <script

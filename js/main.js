@@ -83,13 +83,11 @@ async function getMovies(searchText = '', page = 1, isPopular = false){
   let output = '';
   allMovies.forEach(movie => {
     output += `
-      <div class="col-6 col-sm-4 col-md-3 mb-3 d-flex align-items-stretch">
-        <div class="card movie-card shadow-sm border-0 w-100 h-100 text-center">
-          <img src="${movie.poster}" alt="${movie.title}" class="card-img-top movie-poster" onerror="this.src='https://via.placeholder.com/300x445?text=No+Image'">
-          <div class="card-body p-2 d-flex flex-column justify-content-between">
-            <h6 class="card-title mb-2" style="font-size:1rem; font-weight:600; color:#00bcd4; min-height:2.5em;">${movie.title} <span style='color:#aaa;'>(${movie.year})</span></h6>
-            <a onclick="movieSelected('${movie.id}','${movie.source}')" class="btn btn-primary btn-sm mt-auto" href="#">Movie Details</a>
-          </div>
+      <div class="movie-card">
+        <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/300x445?text=No+Image'">
+        <div class="movie-card-body">
+          <h6 class="card-title">${movie.title} <span>(${movie.year})</span></h6>
+          <a onclick="movieSelected('${movie.id}','${movie.source}')" class="btn-primary" href="#">Movie Details</a>
         </div>
       </div>
     `;
@@ -132,31 +130,32 @@ async function getMovie(){
       const res = await axios.get(`https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&i=${movieId}&plot=full`);
       let movie = res.data;
       output =`
-        <div class="row">
-          <div class="col-md-4">
+        <div id="movie" class="movie-details">
+          <div class="movie-details-poster">
             <img src="${movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/300x445?text=No+Image'}" class="thumbnail">
           </div>
-          <div class="col-md-8">
+          <div class="movie-details-info">
             <h2>${movie.Title}</h2>
-            <ul class="list-group">
+            <ul class="movie-details-list">
               <li class="list-group-item"><strong>Genre:</strong> ${movie.Genre}</li>
-              <li class="list-group-item"><strong>Released:</strong> ${movie.Released}</li>
-              <li class="list-group-item"><strong>Rated:</strong> ${movie.Rated}</li>
-              <li class="list-group-item"><strong>IMDB Rating:</strong> ${movie.imdbRating}</li>
-              <li class="list-group-item"><strong>Director:</strong> ${movie.Director}</li>
-              <li class="list-group-item"><strong>Writer:</strong> ${movie.Writer}</li>
-              <li class="list-group-item"><strong>Actors:</strong> ${movie.Actors}</li>
+              <li><strong>Released:</strong> ${movie.Released}</li>
+              <li><strong>Rated:</strong> ${movie.Rated}</li>
+              <li><strong>IMDB Rating:</strong> ${movie.imdbRating}</li>
+              <li><strong>Director:</strong> ${movie.Director}</li>
+              <li><strong>Writer:</strong> ${movie.Writer}</li>
+              <li><strong>Actors:</strong> ${movie.Actors}</li>
             </ul>
           </div>
-        </div>
-        <div class="row">
-          <div class="well">
-            <h3>Plot</h3>
-            ${movie.Plot}
-            <hr>
-            <a href="http://imdb.com/title/${movie.imdbID}" target="_blank" class="btn btn-primary">View IMDB</a>
-            <a href="index.html" class="btn btn-default">Go Back To Search</a>
+        
+        <div class="movie-details-plot well">
+          <h3>Plot</h3>
+          ${movie.Plot}
+          <hr>
+          <div class="btns">
+          <a href="http://imdb.com/title/${movie.imdbID}" target="_blank" class="btn-primary">View IMDB</a>
+          <a href="index.html" class="btn-default">Go Back To Search</a>
           </div>
+        </div>
         </div>
       `;
     } catch (err) { output = '<p>Error loading OMDB details.</p>'; }
@@ -165,31 +164,30 @@ async function getMovie(){
       const res = await axios.get(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${TMDB_API_KEY}&append_to_response=credits`);
       let movie = res.data;
       output =`
-        <div class="row">
-          <div class="col-md-4">
+        <div class="movie-details" id="movie">
+          <div class="movie-details-poster">
             <img src="${movie.poster_path ? 'https://image.tmdb.org/t/p/w300'+movie.poster_path : 'https://via.placeholder.com/300x445?text=No+Image'}" class="thumbnail">
           </div>
-          <div class="col-md-8">
+          <div class="movie-details-info">
             <h2>${movie.title}</h2>
-            <ul class="list-group">
-              <li class="list-group-item"><strong>Genre:</strong> ${movie.genres.map(g=>g.name).join(', ')}</li>
-              <li class="list-group-item"><strong>Released:</strong> ${movie.release_date}</li>
-              <li class="list-group-item"><strong>Rated:</strong> ${movie.adult ? '18+' : 'PG'}</li>
-              <li class="list-group-item"><strong>TMDB Rating:</strong> ${movie.vote_average}</li>
-              <li class="list-group-item"><strong>Director:</strong> ${movie.credits.crew.filter(c=>c.job==='Director').map(c=>c.name).join(', ')}</li>
-              <li class="list-group-item"><strong>Writer:</strong> ${movie.credits.crew.filter(c=>c.job==='Writer').map(c=>c.name).join(', ')}</li>
-              <li class="list-group-item"><strong>Actors:</strong> ${movie.credits.cast.slice(0,5).map(a=>a.name).join(', ')}</li>
+            <ul class="movie-details-list">
+              <li><strong>Genre:</strong> ${movie.genres.map(g=>g.name).join(', ')}</li>
+              <li><strong>Released:</strong> ${movie.release_date}</li>
+              <li><strong>Rated:</strong> ${movie.adult ? '18+' : 'PG'}</li>
+              <li><strong>TMDB Rating:</strong> ${movie.vote_average}</li>
+              <li><strong>Director:</strong> ${movie.credits.crew.filter(c=>c.job==='Director').map(c=>c.name).join(', ')}</li>
+              <li><strong>Writer:</strong> ${movie.credits.crew.filter(c=>c.job==='Writer').map(c=>c.name).join(', ')}</li>
+              <li><strong>Actors:</strong> ${movie.credits.cast.slice(0,5).map(a=>a.name).join(', ')}</li>
             </ul>
           </div>
+        
+        <div class="movie-details-plot well">
+          <h3>Plot</h3>
+          ${movie.overview}
+          <hr>
+          <a href="https://www.themoviedb.org/movie/${movie.id}" target="_blank" class="btn-primary">View on TMDB</a>
+          <a href="index.html" class="btn-default">Go Back To Search</a>
         </div>
-        <div class="row">
-          <div class="well">
-            <h3>Plot</h3>
-            ${movie.overview}
-            <hr>
-            <a href="https://www.themoviedb.org/movie/${movie.id}" target="_blank" class="btn btn-primary">View on TMDB</a>
-            <a href="index.html" class="btn btn-default">Go Back To Search</a>
-          </div>
         </div>
       `;
     } catch (err) { output = '<p>Error loading TMDB details.</p>'; }
