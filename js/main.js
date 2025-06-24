@@ -101,7 +101,7 @@ async function getMovies(searchText = '', page = 1, isPopular = false){
 function renderPagination(current, total) {
   let pag = '';
   if (total > 1) {
-    pag += '<nav><ul class="pagination justify-content-center">';
+    pag += '<div class="pagination-wrapper d-flex justify-content-center"><nav><ul class="pagination">';
     let start = Math.max(1, current-2);
     let end = Math.min(total, current+2);
     if (current > 1) pag += `<li class="page-item"><a class="page-link" href="#" data-page="${current-1}">&laquo;</a></li>`;
@@ -109,8 +109,10 @@ function renderPagination(current, total) {
       pag += `<li class="page-item${i===current?' active':''}"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`;
     }
     if (current < total) pag += `<li class="page-item"><a class="page-link" href="#" data-page="${current+1}">&raquo;</a></li>`;
-    pag += '</ul></nav>';
+    pag += '</ul></nav></div>';
   }
+  // Remove any previous pagination before adding new
+  $('.pagination-wrapper').remove();
   $('#movies').after(pag);
 }
 
