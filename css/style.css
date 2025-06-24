@@ -1,0 +1,130 @@
+#movies .col-md-3 {
+  margin-bottom: 30px;
+}
+
+#movies .well {
+  background: #23272b;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  padding: 18px 10px 10px 10px;
+  min-height: 420px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#movies .well:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+}
+#movies img, #movie img {
+  width: 100%;
+  max-height: 320px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background: #111;
+}
+#movies h5 {
+  color: #fff;
+  font-size: 1.1rem;
+  margin: 10px 0 12px 0;
+  min-height: 48px;
+}
+#movies .btn-primary {
+  background: #00bcd4;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 18px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+#movies .btn-primary:hover {
+  background: #0097a7;
+}
+
+.jumbotron {
+  background: #23272b;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+  padding: 32px 24px 24px 24px;
+  margin-bottom: 32px;
+  color: #fff;
+  text-align: center;
+  position: relative;
+}
+.jumbotron h3.text-center {
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 18px;
+  margin-top: 0;
+  color: #00bcd4;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  position: relative;
+  z-index: 2;
+}
+#searchText {
+  border-radius: 20px;
+  padding: 12px 18px;
+  font-size: 1.1rem;
+  margin-top: 18px;
+  margin-bottom: 8px;
+  background: #181a1b;
+  color: #fff;
+  border: 1px solid #333;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+#searchText:focus {
+  border-color: #00bcd4;
+  outline: none;
+}
+
+@media (max-width: 767px) {
+  #movies .col-md-3 {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+  }
+  .jumbotron {
+    padding: 18px 8px 12px 8px;
+  }
+  .jumbotron h3.text-center {
+    font-size: 1.3rem;
+    margin-bottom: 12px;
+  }
+}
+
+#movie .thumbnail {
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  margin-bottom: 18px;
+}
+#movie h2 {
+  color: #00bcd4;
+  margin-bottom: 18px;
+}
+#movie .list-group-item {
+  background: #23272b;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  margin-bottom: 6px;
+}
+#movie .btn-primary {
+  background: #00bcd4;
+  border: none;
+  border-radius: 20px;
+  font-weight: 600;
+}
+#movie .btn-primary:hover {
+  background: #0097a7;
+}
+#movie .btn-default {
+  border-radius: 20px;
+}
+#movie .well {
+  background: #181a1b;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+}
