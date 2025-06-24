@@ -34,6 +34,40 @@ $(document).ready(() => {
       getMovies(lastSearchText, page, lastSearchText === '');
     }
   });
+
+  // Watchlist modal handlers
+  $('#watchlistBtn').on('click', function() {
+    renderWatchlist();
+    $('#watchlistModal').css('display', 'flex');
+  });
+  $('#closeWatchlist').on('click', function() {
+    $('#watchlistModal').hide();
+  });
+  // Remove from watchlist
+  $(document).on('click', '.remove-watchlist', function() {
+    const id = $(this).data('id');
+    removeFromWatchlist(id);
+    // Re-enable the "Add to Watchlist" button for the removed movie,I love the magic here
+  $(`.add-watchlist-btn[data-id="${id}"]`).prop('disabled', false).text('Add to Watchlist');
+    
+    renderWatchlist();
+  });
+
+  // Add to watchlist button click handler
+  $(document).on('click', '.add-watchlist-btn', function() {
+    const btn = $(this);
+    const movie = {
+      id: btn.data('id'),
+      source: btn.data('source'),
+      title: decodeURIComponent(btn.data('title')),
+      poster: decodeURIComponent(btn.data('poster')),
+      year: btn.data('year')
+    };
+    addToWatchlist(movie);
+    //btn.prop('disabled', true).innerHTML('Added to Watchlist');
+    btn.prop('disabled',true).text('Added to Watchlist');
+
+  });
 });
 
 async function fetchGenres() {
@@ -48,6 +82,54 @@ async function fetchGenres() {
   } catch (err) {
     $('#genreSelect').html('<option value="">All Genres</option>');
   }
+}
+
+function getWatchlist() {
+  return JSON.parse(localStorage.getItem('watchlist') || '[]');
+}
+
+function saveWatchlist(list) {
+  localStorage.setItem('watchlist', JSON.stringify(list));
+}
+
+function addToWatchlist(movie) {
+  let list = getWatchlist();
+  if (!list.find(m => m.id === movie.id && m.source === movie.source)) {
+    list.push(movie);
+    saveWatchlist(list);
+  }
+}
+
+function removeFromWatchlist(id) {
+  let list = getWatchlist();
+  list = list.filter(m => m.id !== id);
+  saveWatchlist(list);
+}
+
+function isInWatchlist(movie) {
+  let list = getWatchlist();
+  return list.some(m => m.id === movie.id && m.source === movie.source);
+}
+
+function renderWatchlist() {
+  const list = getWatchlist();
+  if (!list.length) {
+    $('#watchlistContent').html('<p>Your watchlist is empty.</p>');
+    return;
+  }
+  let html = '<ul style="list-style:none; padding:0;">';
+  list.forEach(movie => {
+    html += `
+      <li style="margin-bottom:1rem; display:flex; align-items:center; gap:1rem;">
+        <img src="${movie.poster}" alt="${movie.title}" style="width:60px; border-radius:8px;">
+        <span style="flex:1;">${movie.title} (${movie.year})</span>
+        <button class="remove-watchlist" data-id="${movie.id}" style="background:#e53935; color:#fff; border:none; border-radius:8px; padding:4px 10px; cursor:pointer;">Remove</button>
+        <button onclick="movieSelected('${movie.id}','${movie.source}')" style="background:#00bcd4; color:#fff; border:none; border-radius:8px; padding:4px 10px; cursor:pointer;">Details</button>
+      </li>
+    `;
+  });
+  html += '</ul>';
+  $('#watchlistContent').html(html);
 }
 
 async function getMovies(searchText = '', page = 1, isPopular = false){
@@ -130,12 +212,18 @@ async function getMovies(searchText = '', page = 1, isPopular = false){
   let allMovies = [...omdbMovies, ...tmdbMovies];
   let output = '';
   allMovies.forEach(movie => {
+    const inWatchlist = isInWatchlist(movie);
     output += `
       <div class="movie-card">
         <img src="${movie.poster}" alt="${movie.title}" class="movie-poster" onerror="this.src='https://via.placeholder.com/300x445?text=No+Image'">
         <div class="movie-card-body">
           <h6 class="card-title">${movie.title} <span>(${movie.year})</span></h6>
           <a onclick="movieSelected('${movie.id}','${movie.source}')" class="btn-primary" href="#">Movie Details</a>
+          <button class="btn-primary add-watchlist-btn" style="margin-top:10px;" 
+            data-id="${movie.id}" data-source="${movie.source}" data-title="${encodeURIComponent(movie.title)}" data-poster="${encodeURIComponent(movie.poster)}" data-year="${movie.year}"
+            ${inWatchlist ? 'disabled' : ''}>
+            ${inWatchlist ? 'Added to Watchlist' : 'Add to Watchlist'}
+          </button>
         </div>
       </div>
     `;

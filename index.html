@@ -10,6 +10,7 @@
       <div class="container">
         <div class="navbar-header" style="width:100%; display:flex; align-items:center; justify-content:center;">
           <a class="navbar-brand" href="index.html" style="font-size:2rem; font-weight:700; color:#00bcd4; letter-spacing:1px;">MovieInfo</a>
+          <button id="watchlistBtn" style="margin-left:2rem; background:#00bcd4; color:#fff; border:none; border-radius:20px; padding:8px 18px; font-weight:600; cursor:pointer;">Watchlist</button>
         </div>
       </div>
     </nav>
@@ -30,6 +31,14 @@
     <div class="container">
       <div id="movies" class="movie-cards-container">
         <!-- Movie cards will be dynamically added here -->
+      </div>
+    </div>
+
+    <div id="watchlistModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); z-index:1000; align-items:center; justify-content:center;">
+      <div style="background:#23272b; color:#fff; border-radius:12px; padding:2rem; max-width:600px; width:90vw; margin:auto; position:relative;">
+        <button id="closeWatchlist" style="position:absolute; top:10px; right:16px; background:none; border:none; color:#fff; font-size:1.5rem; cursor:pointer;">&times;</button>
+        <h2 style="color:#00bcd4;">My Watchlist</h2>
+        <div id="watchlistContent"></div>
       </div>
     </div>
 
