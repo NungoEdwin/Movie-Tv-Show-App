@@ -1,6 +1,6 @@
 // Insert your API keys here
-const OMDB_API_KEY = 'YOUR_OMDB_API_KEY'; // <-- Replace with your OMDB API key
-const TMDB_API_KEY = 'YOUR_TMDB_API_KEY'; // <-- Replace with your TMDB API key
+const OMDB_API_KEY = 'b915251'; // <-- Replace with your OMDB API key
+const TMDB_API_KEY = 'b36dd2a4716ad427f080c880ffb51b7b'; // <-- Replace with your TMDB API key
 
 $(document).ready(() => {
   $('#searchForm').on('submit', (e) => {
@@ -25,6 +25,7 @@ async function getMovies(searchText){
       }));
     }
   } catch (err) { console.log('OMDB error', err); }
+  console.log('OMDB Movies:', omdbMovies);
 
   // Fetch from TMDB
   let tmdbMovies = [];
@@ -40,6 +41,7 @@ async function getMovies(searchText){
       }));
     }
   } catch (err) { console.log('TMDB error', err); }
+  console.log('TMDB Movies:', tmdbMovies);
 
   // Merge and display
   let allMovies = [...omdbMovies, ...tmdbMovies];
